@@ -1,27 +1,27 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import axios from "axios";
-
-interface Item {
-  _id: string;
-  name: string;
-  code: string;
-  weight: number;
-  price: number;
-  color: string;
-}
+import Modal from "./components/Modal.vue";
+import type { Item } from "./components/interfaces";
 
 export default defineComponent({
   data() {
     return {
       items: [] as Item[],
+      renderComponent: true,
     };
   },
   created() {
     this.fetch();
   },
   methods: {
-    // Write a GET request to http://localhost:3000/produse.
+    forceRerender() {
+      this.fetch();
+      this.renderComponent = false;
+      this.$nextTick(() => {
+        this.renderComponent = true;
+      });
+    },
     async fetch() {
       try {
         const response = await axios.get("http://localhost:3000/produse");
@@ -30,21 +30,6 @@ export default defineComponent({
         console.error(e);
       }
     },
-
-    async write(newItem: Item) {
-      try {
-        const response = await axios.post("http://localhost:3000/produse", {
-          name: newItem.name,
-          code: newItem.code,
-          weight: newItem.weight,
-          price: newItem.price,
-          color: newItem.color,
-        });
-      } catch (e) {
-        console.error(e);
-      }
-    },
-
     async remove(_id: string) {
       try {
         const response = await axios.delete(
@@ -54,7 +39,6 @@ export default defineComponent({
         console.error(e);
       }
     },
-
     async update(newItem: Item, _id: string) {
       try {
         const response = await axios.put(
@@ -72,12 +56,13 @@ export default defineComponent({
       }
     },
   },
+  components: { Modal },
 });
 </script>
 
 <template>
   <div>
-    <table class="table table-bordered">
+    <table>
       <thead>
         <tr>
           <th>Name</th>
@@ -98,6 +83,7 @@ export default defineComponent({
       </tbody>
     </table>
   </div>
+  <Modal @reload="forceRerender"></Modal>
 </template>
 
 <style scoped></style>
