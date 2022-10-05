@@ -5,13 +5,57 @@ import Modal from "./components/Modal.vue";
 import type { Item } from "./components/interfaces";
 
 export default defineComponent({
+  setup() {
+    return {
+      selected: ref([]),
+    };
+  },
+  watch: {
+    selected(newVal, oldVal) {
+      this.selected = newVal;
+    },
+  },
   data() {
     return {
       items: [] as Item[],
+      rendered: false,
+
+      columns: [
+        {
+          name: "name",
+          label: "Name",
+          field: "name",
+          sortable: true,
+        },
+        {
+          name: "code",
+          label: "Code",
+          field: "code",
+        },
+        {
+          name: "weight",
+          label: "Weight",
+          field: "weight",
+          sortable: true,
+          sort: (a: number, b: number) => a - b,
+        },
+        {
+          name: "price",
+          label: "Price",
+          field: "price",
+          sortable: true,
+          sort: (a: number, b: number) => a - b,
+        },
+        {
+          name: "color",
+          label: "Color",
+          field: "color",
+        },
+      ],
       renderComponent: true,
     };
   },
-  created() {
+  mounted() {
     this.fetch();
   },
   methods: {
@@ -26,31 +70,8 @@ export default defineComponent({
       try {
         const response = await axios.get("http://localhost:3000/produse");
         this.items = response.data;
-      } catch (e) {
-        console.error(e);
-      }
-    },
-    async remove(_id: string) {
-      try {
-        const response = await axios.delete(
-          `http://localhost:3000/produse/${_id}/delete`
-        );
-      } catch (e) {
-        console.error(e);
-      }
-    },
-    async update(newItem: Item, _id: string) {
-      try {
-        const response = await axios.put(
-          `http://localhost:3000/produse/${_id}/update`,
-          {
-            name: newItem.name,
-            code: newItem.code,
-            weight: newItem.weight,
-            price: newItem.price,
-            color: newItem.color,
-          }
-        );
+        this.rendered = true;
+        console.log(this.items);
       } catch (e) {
         console.error(e);
       }
@@ -62,28 +83,18 @@ export default defineComponent({
 
 <template>
   <div>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Code</th>
-          <th>Weight</th>
-          <th>Price</th>
-          <th>Color</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in items" :key="item._id">
-          <td>{{ item.name }}</td>
-          <td>{{ item.code }}</td>
-          <td>{{ item.weight }}</td>
-          <td>{{ item.price }}</td>
-          <td>{{ item.color }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <q-table
+      title="Items"
+      :rows="items"
+      :columns="columns"
+      row-key="_id"
+      selection="single"
+      v-model:selected="selected"
+      v-if="rendered"
+    >
+    </q-table>
   </div>
-  <Modal @reload="forceRerender"></Modal>
+  <Modal @reload="forceRerender" :selected="selected"></Modal>
 </template>
 
 <style scoped></style>
