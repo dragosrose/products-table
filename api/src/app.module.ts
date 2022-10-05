@@ -8,7 +8,9 @@ import { ConfigModule } from '@nestjs/config';
     ProduseModule,
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(
-      `mongodb+srv://dragos:${process.env.PASSWORD}@cluster0.onwiunp.mongodb.net/test`,
+      // `mongodb+srv://dragos:${process.env.PASSWORD}@cluster0.onwiunp.mongodb.net/test`,
+      // Created superuser for your convenience.
+      `mongodb+srv://user:12345@cluster0.onwiunp.mongodb.net/test`,
     ),
   ],
   controllers: [],

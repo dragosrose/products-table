@@ -3,9 +3,13 @@ import { defineComponent, ref } from "vue";
 import axios from "axios";
 import Modal from "./components/Modal.vue";
 import type { Item } from "./components/interfaces";
+import { useQuasar } from "quasar";
 
 export default defineComponent({
   setup() {
+    const $q = useQuasar();
+    $q.dark.set(true);
+
     return {
       selected: ref([]),
     };

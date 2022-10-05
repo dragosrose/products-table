@@ -76,12 +76,35 @@ export default defineComponent({
 </script>
 
 <template>
-  <q-btn label="Add Item" @click="create = true"></q-btn>
-  <q-btn v-if="selected.length" label="Update Item" @click="put = true"></q-btn>
+  <div class="m-3 space-x-4">
+    <q-btn
+      class="dark: bg-slate-300"
+      glossy
+      label="Add Item"
+      @click="create = true"
+    ></q-btn>
+    <q-btn
+      v-if="selected.length"
+      glossy
+      label="Update Item"
+      @click="put = true"
+    ></q-btn>
+    <!-- Delete -->
+    <q-btn
+      v-if="selected.length"
+      color="red"
+      glossy
+      label="Delete"
+      @click="remove(selected[0]._id)"
+    ></q-btn>
+  </div>
+
   <!-- Create modal -->
   <q-dialog v-model="create" persistent>
-    <q-card style="min-width: 350px">
-      <q-card-section> <div class="text-h6">Name</div> </q-card-section>
+    <q-card class="q-pa-md" style="min-width: 350px">
+      <q-card-section>
+        <div class="text-h6">Name</div>
+      </q-card-section>
       <q-input
         dense
         v-model="newItem.name"
@@ -122,38 +145,38 @@ export default defineComponent({
   </q-dialog>
   <!-- Update modal -->
   <q-dialog v-model="put" persistent>
-    <q-card style="min-width: 350px">
+    <q-card class="q-pa-md" style="min-width: 350px">
       <q-card-section> <div class="text-h6">Name</div> </q-card-section>
       <q-input
         dense
         :placeholder="selected[0].name"
-        v-model="newItem.name"
+        v-model="selected[0].name"
         autofocus
       ></q-input>
       <q-card-section> <div class="text-h6">Item code</div> </q-card-section>
       <q-input
         dense
         :placeholder="selected[0].code"
-        v-model="newItem.code"
+        v-model="selected[0].code"
         autofocus
       ></q-input>
       <q-card-section> <div class="text-h6">Weight</div> </q-card-section>
       <q-input
         dense
         :placeholder="selected[0].weight.toString()"
-        v-model="newItem.weight"
+        v-model="selected[0].weight"
       ></q-input>
       <q-card-section> <div class="text-h6">Price</div> </q-card-section>
       <q-input
         dense
         :placeholder="selected[0].price.toString()"
-        v-model="newItem.price"
+        v-model="selected[0].price"
       ></q-input>
       <q-card-section> <div class="text-h6">Color</div> </q-card-section>
       <q-input
         dense
         :placeholder="selected[0].color"
-        v-model="newItem.color"
+        v-model="selected[0].color"
       ></q-input>
 
       <q-card-actions align="right" class="text-primary">
@@ -161,19 +184,12 @@ export default defineComponent({
         <q-btn
           flat
           label="Update item"
-          @click="update(newItem, selected[0]._id)"
+          @click="update(selected[0], selected[0]._id)"
           v-close-popup
         />
       </q-card-actions>
     </q-card>
   </q-dialog>
 
-  <!-- Delete -->
-  <q-btn
-    v-if="selected.length"
-    label="Delete"
-    @click="remove(selected[0]._id)"
-  ></q-btn>
-
-  <div class="q-mt-md">Selected: {{ JSON.stringify(selected) }}</div>
+  <div class="my-10 text-lg">Selected: {{ JSON.stringify(selected) }}</div>
 </template>
