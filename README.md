@@ -53,4 +53,6 @@ Node 16
 docker-compose up
 ```
 
+Should note that the DB itself is hosted on the official MongoDB cloud. Credentials of a db users with read/write permits is already typed inside the api. Obviously not safe but I doubt there is much to do with this info anyway lol.
+
     
