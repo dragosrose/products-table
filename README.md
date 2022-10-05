@@ -19,7 +19,7 @@
 
 ## About the project
 
-The project consists in a table of all sort of products to which an admin can add, edit or remove items. The table is also sortable/pageable. Additionally, whenever an item is selected its fields will be printed in order to display all of the object's information (more notable, the item id).
+The project consists in a table of all sorts of products to which an admin can add, edit or remove items. The table is also sortable/pageable. Additionally, whenever an item is selected its fields will be printed in order to display all of the object's information (more notable, the item id).
 
 [showcase.webm](https://user-images.githubusercontent.com/79592589/194172068-023c50d0-09b6-484f-aceb-327e812b14bc.webm)
 
