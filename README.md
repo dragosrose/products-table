@@ -1,4 +1,4 @@
-# doraly-products
+# products-table
 
 <details>
   <summary>Table of Contents</summary>
