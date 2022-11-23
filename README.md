@@ -37,7 +37,7 @@ Node 16
 ### Installation
 1. Clone the repo
   ```sh
-  git clone https://github.com/nomoney34/doraly-products.git
+  git clone https://github.com/nomoney34/products-table.git
   ```
 2. Install npm in both api and frontend directories (will add later a postinstall script)
   ```sh
